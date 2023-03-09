@@ -5,45 +5,40 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.nio.file.StandardOpenOption.*;
 
 public class Futil {
-
     public static void processDir(String dirName, String resultFileName) {
-        Path dir = Paths.get(dirName);
-        Path resultFile = Paths.get(resultFileName);
+        Path startPath = Paths.get(dirName);
+        Path resPath = Paths.get(resultFileName);
 
-        try {
-            if (!Files.exists(resultFile)) {
-                Files.createFile(resultFile);
+        Charset charsetIn = Charset.forName("Cp1250");
+        Charset charsetOut = Charset.forName("UTF-8");
+        List<Path> pathList = new ArrayList<>();
+
+        try (Stream<Path> pathStream = Files.walk(startPath)) {
+            pathList = pathStream.filter(Files::isRegularFile).collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (FileChannel fileChannelOut = FileChannel.open(resPath, CREATE, TRUNCATE_EXISTING, WRITE)) {
+            for (Path path : pathList) {
+                FileChannel fileChannelIn = FileChannel.open(path);
+                ByteBuffer byteBuffer = ByteBuffer.allocateDirect((int) fileChannelIn.size());
+                fileChannelIn.read(byteBuffer);
+                byteBuffer.flip();
+                CharBuffer charBuffer = charsetIn.decode(byteBuffer);
+                fileChannelOut.write(charsetOut.encode(charBuffer));
             }
-            Files.write(resultFile, "".getBytes()); // clear the file
-
-            Charset cp1250 = Charset.forName("Cp1250");
-            Charset utf8 = Charset.forName("UTF-8");
-            CharsetEncoder encoder = utf8.newEncoder();
-            CharsetDecoder decoder = cp1250.newDecoder();
-
-            FileVisitor<Path> fileVisitor = new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    try (FileChannel inChannel = FileChannel.open(file, StandardOpenOption.READ);
-                         FileChannel outChannel = FileChannel.open(resultFile, StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
-                        ByteBuffer buffer = ByteBuffer.allocate((int) inChannel.size());
-                        inChannel.read(buffer);
-                        buffer.flip();
-                        CharBuffer charBuffer = decoder.decode(buffer);
-                        buffer = encoder.encode(charBuffer);
-                        outChannel.write(buffer);
-                    }
-                    return FileVisitResult.CONTINUE;
-                }
-            };
-
-            Files.walkFileTree(dir, fileVisitor);
         } catch (IOException e) {
             e.printStackTrace();
         }
