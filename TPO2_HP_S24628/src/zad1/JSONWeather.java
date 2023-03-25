@@ -1,6 +1,20 @@
 package zad1;
 
-public class MainData {
+public class JSONWeather {
+    MainData main;
+    //MainWeather weather;
+
+    public MainData getMain() {
+        return main;
+    }
+
+    //public MainWeather getWeather() {
+    //    return weather;
+    //}
+}
+
+/*
+class MainData {
     double temp;
     double feels_like;
     int pressure;
@@ -22,3 +36,4 @@ public class MainData {
         return feels_like;
     }
 }
+*/
