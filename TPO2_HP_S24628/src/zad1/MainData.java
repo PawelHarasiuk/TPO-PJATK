@@ -2,7 +2,6 @@ package zad1;
 
 public class MainData {
     double temp;
-    double feels_like;
     int pressure;
     int humidity;
 
@@ -18,7 +17,4 @@ public class MainData {
         return temp;
     }
 
-    public double getFeelsLike() {
-        return feels_like;
-    }
 }

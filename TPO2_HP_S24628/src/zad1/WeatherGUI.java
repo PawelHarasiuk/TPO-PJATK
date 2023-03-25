@@ -20,43 +20,42 @@ public class WeatherGUI extends JFrame {
     private JTextField cityField;
     private JTextField countryField;
     private JLabel tempValue;
-    private JLabel feelsLikeValue;
+    private JLabel skyValue;
     private JTextField currencyField;
     private JButton getCurrenceButton;
     private JButton getWebsiteButton;
     private JLabel rateValue;
     private JLabel NBPValue;
     private final JFrame mainFrame;
-    //private final Service service;
     private final JFXPanel jfxPanel;
 
     private JSONWeather jsonWeather;
 
     public WeatherGUI(Service service) {
         this.mainFrame = this;
-        //this.service = service;
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.add(mainPanel);
         jfxPanel = new JFXPanel();
         webPanel.add(jfxPanel);
-        mainFrame.setSize(600, 600);
         mainFrame.pack();
-        mainFrame.repaint();
-        mainFrame.revalidate();
 
-        //do testów
-        countryField.setText("Poland");
-        cityField.setText("Warsaw");
-        //
+        countryField.setText(service.getCountry());
+        cityField.setText(service.getCity());
+        currencyField.setText(service.getCurrency());
 
+        //jak to klikne to usuwam informacje z innych pul
         getWeatherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jsonWeather = service.getWeatherUser(countryField.getText(), cityField.getText());
+                service.setCountry(countryField.getText());
+                service.setCity(cityField.getText());
+                service.setCurrency(service.getCountryCurrency(countryField.getText()));
+
+                jsonWeather = service.getWeatherGUI(countryField.getText(), cityField.getText());
                 tempValue.setText(jsonWeather.getMain().getTemp() + " C");
-                feelsLikeValue.setText(jsonWeather.getMain().getFeelsLike() + " C");
+                skyValue.setText(jsonWeather.getWeather());
                 pressureValue.setText(jsonWeather.getMain().getPressure() + " HPa");
                 humiValue.setText(jsonWeather.getMain().getHumidity() + " %");
                 mainFrame.repaint();
@@ -67,9 +66,13 @@ public class WeatherGUI extends JFrame {
         getCurrenceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //logika, do servisu
+                service.setCountry(countryField.getText());
+                service.setCity(cityField.getText());
+                service.setCurrency(service.getCountryCurrency(countryField.getText()));
+
+
                 double rate = service.getRateFor(currencyField.getText());
-                double rateFor = service.getRateFor(service.getCurrencyInCountry(countryField.getText()));
+                double rateFor = service.getRateFor(service.getCountryCurrency(countryField.getText()));
                 rateValue.setText(String.valueOf(rateFor / rate));
                 NBPValue.setText(String.valueOf(service.getNBPRate()));
                 mainFrame.repaint();
@@ -89,12 +92,16 @@ public class WeatherGUI extends JFrame {
                         WebEngine webEngine = webView.getEngine();
                         webEngine.load(String.format(url, cityField.getText()));
                         jfxPanel.setScene(new Scene(webView));
+                        mainFrame.revalidate();
+                        mainFrame.repaint();
                         mainFrame.pack();
                     }
                 });
                 webPanel.removeAll();
                 webPanel.add(jfxPanel);
                 mainFrame.revalidate();
+                mainFrame.repaint();
+                mainFrame.pack();
             }
         });
     }

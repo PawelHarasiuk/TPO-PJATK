@@ -16,11 +16,6 @@ public class Main {
     Double rate1 = s.getRateFor("USD");
     Double rate2 = s.getNBPRate();
 
-
-    System.out.println(weatherJson);
-    System.out.println(rate1);
-    System.out.println(rate2);
-
     SwingUtilities.invokeLater(() -> {
       new WeatherGUI(s);
     });

@@ -1,7 +1,5 @@
 /**
- *
  * @author Harasiuk Paweł S24628
- *
  */
 
 package zad1;
@@ -37,9 +35,9 @@ public class Service {
         this.gson = new Gson();
     }
 
-    //do maina do zadnianie
     public String getWeather(String city) {
         this.city = city;
+        this.currency = getCountryCurrency(country);
         String code = getCode(country);
         String urlString = "https://api.openweathermap.org/data/2.5/weather?q=%s,%s&appid=%s&units=metric";
         // TODO zobić sprawdzenie czy city prawidłowe i obsluge bledu
@@ -47,7 +45,6 @@ public class Service {
              BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))
         ) {
             this.weatherJson = bufferedReader.lines().collect(Collectors.joining());
-
             weather = gson.fromJson(weatherJson, JSONWeather.class);
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,46 +54,37 @@ public class Service {
     }
 
 
-    //potrzebuje ten obiekt potem jakos polaczyc z tym z main
-    public JSONWeather getWeatherUser(String country, String city) {
+    public JSONWeather getWeatherGUI(String country, String city) {
         this.country = country;
         this.city = city;
+        this.currency = getCountryCurrency(country);
 
-        String code = getCode(country);
-
-
-        String urlString = "https://api.openweathermap.org/data/2.5/weather?q=%s,%s&appid=%s&units=metric";
-        // TODO zobić sprawdzenie czy city prawidłowe i obsluge bledu
-        try (InputStream inputStream = new URL(String.format(urlString, city, code, MY_KEY)).openConnection().getInputStream();
-             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))
-        ) {
-            this.weatherJson = bufferedReader.lines().collect(Collectors.joining());
-
-            weather = gson.fromJson(weatherJson, JSONWeather.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        weather = gson.fromJson(getWeather(city), JSONWeather.class);
+        System.out.println(weather.getWeather());
         return weather;
     }
 
 
     public Double getRateFor(String currencyCode) {
-        this.currency = currencyCode;
-        String url = "https://api.exchangerate.host/latest?base=" + country + "&symbols=" + currencyCode;
+        String url = String.format("https://api.exchangerate.host/latest?base=%s&symbols=%s", country, currencyCode);
         StringBuilder response = new StringBuilder();
 
-        try {
+        try (
+                InputStream inputStream = new URL(url).openConnection().getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))
+
+        ) {
             URL obj = new URL(url);
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
             con.setRequestMethod("GET");
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
+            String inputLine = "";
 
-            while ((inputLine = in.readLine()) != null) {
+            while ((inputLine = bufferedReader.readLine()) != null) {
                 response.append(inputLine);
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
@@ -116,19 +104,19 @@ public class Service {
         return null; // Country not found
     }
 
-    public String getCurrencyInCountry(String country) {
+    public String getCountryCurrency(String country) {
         Locale locale = new Locale("", getCode(country));
         return String.valueOf(Currency.getInstance(locale));
     }
 
     public double getNBPRate() {
-        String c = getCurrencyInCountry(getCountry());
+        String c = getCountryCurrency(getCountry());
         if (c.equals("PLN")) {
             return 1.0;
         }
 
         for (int i = 'A'; i <= 'C'; i++) {
-            double tmp = getValue((char) i, currency);
+            double tmp = getValue((char) i, c);
             if (tmp != 0.0) {
                 return tmp;
             }
@@ -168,6 +156,18 @@ public class Service {
 
     public String getCurrency() {
         return currency;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }
 

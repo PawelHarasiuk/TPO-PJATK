@@ -76,7 +76,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Feels like"/>
+          <text value="Sky"/>
         </properties>
       </component>
       <component id="768a" class="javax.swing.JLabel">
@@ -88,7 +88,7 @@
           <text value="Temperature"/>
         </properties>
       </component>
-      <component id="1a5ea" class="javax.swing.JLabel" binding="feelsLikeValue">
+      <component id="1a5ea" class="javax.swing.JLabel" binding="skyValue">
         <constraints>
           <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
