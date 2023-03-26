@@ -4,30 +4,32 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Currency;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class Tricks {
-    public static void main(String[] args) {
-        //zrobic petle zeby przechodzila po wartosciach od A do C i szukala value
-        double num = findInTable("USD");
-        System.out.printf("%.2f%n", num);
-    }
+public class ServiceHelp {
 
-    public static double findInTable(String currency) {
-        if (currency.equals("PLN")){
-            return 1.0;
-        }
 
-        for (int i = 'A'; i <= 'C'; i++) {
-            double tmp = getValue((char) i, currency);
-            if (tmp != 0.0) {
-                return tmp;
+    public static String getCode(String country) {
+        Locale[] locales = Locale.getAvailableLocales();
+        for (Locale locale : locales) {
+            if (country.equalsIgnoreCase(locale.getDisplayCountry(new Locale("eng")))) {
+                return locale.getCountry();
             }
         }
-        return -1;
+        return null;
     }
+
+
+    public static String getCountryCurrency(String country) {
+        Locale locale = new Locale("", Objects.requireNonNull(getCode(country)));
+        return String.valueOf(Currency.getInstance(locale));
+    }
+
 
     public static double getValue(char table, String currency) {
         String url = String.format("https://api.nbp.pl/api/exchangerates/rates/%s/%s/", table, currency);
@@ -37,17 +39,17 @@ public class Tricks {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))
         ) {
             content = bufferedReader.lines().collect(Collectors.joining());
-        } catch (Exception ignored) {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         Pattern pattern = Pattern.compile("\"mid\":\\s*([0-9]+\\.[0-9]+)");
         Matcher matcher = pattern.matcher(content);
-        double v = 0;
+        double rate = 0;
         if (matcher.find()) {
             return Double.parseDouble(matcher.group(1));
         }
 
-        return v;
+        return rate;
     }
 }

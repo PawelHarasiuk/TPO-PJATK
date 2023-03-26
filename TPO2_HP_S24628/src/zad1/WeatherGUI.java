@@ -7,8 +7,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 
 
 public class WeatherGUI extends JFrame {
@@ -22,87 +21,81 @@ public class WeatherGUI extends JFrame {
     private JLabel tempValue;
     private JLabel skyValue;
     private JTextField currencyField;
-    private JButton getCurrenceButton;
+    private JButton getCurrencyButton;
     private JButton getWebsiteButton;
     private JLabel rateValue;
     private JLabel NBPValue;
     private final JFrame mainFrame;
     private final JFXPanel jfxPanel;
+    private final String WEBSITE_URL = "https://en.wikipedia.org/wiki/%s";
 
-    private JSONWeather jsonWeather;
+    private JSONWeather weather;
 
     public WeatherGUI(Service service) {
         this.mainFrame = this;
-        this.setVisible(true);
-        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.add(mainPanel);
+        this.setPreferredSize(new Dimension(600, 600));
+        this.setVisible(true);
         jfxPanel = new JFXPanel();
         webPanel.add(jfxPanel);
         mainFrame.pack();
 
-        countryField.setText(service.getCountry());
-        cityField.setText(service.getCity());
-        currencyField.setText(service.getCurrency());
+        countryField.setText("Poland");
+        cityField.setText("Warsaw");
+        currencyField.setText("PLN");
 
-        //jak to klikne to usuwam informacje z innych pul
-        getWeatherButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                service.setCountry(countryField.getText());
-                service.setCity(cityField.getText());
-                service.setCurrency(service.getCountryCurrency(countryField.getText()));
+        tempValue.setText("0");
+        skyValue.setText("");
+        humiValue.setText("0");
+        pressureValue.setText("0");
+        rateValue.setText("0");
+        NBPValue.setText("0");
 
-                jsonWeather = service.getWeatherGUI(countryField.getText(), cityField.getText());
-                tempValue.setText(jsonWeather.getMain().getTemp() + " C");
-                skyValue.setText(jsonWeather.getWeather());
-                pressureValue.setText(jsonWeather.getMain().getPressure() + " HPa");
-                humiValue.setText(jsonWeather.getMain().getHumidity() + " %");
-                mainFrame.repaint();
-                mainFrame.pack();
+        getWeatherButton.addActionListener(e -> {
+            service.setCurrency(ServiceHelp.getCountryCurrency(countryField.getText()));
+            service.setCountry(countryField.getText());
+            service.setCity(cityField.getText());
+            service.getWeather(service.getCity());
+
+            weather = service.getMyWeather();
+
+            if (weather != null) {
+                tempValue.setText(weather.getMain().getTemp() + " C");
+                skyValue.setText(weather.getWeather());
+                pressureValue.setText(weather.getMain().getPressure() + " HPa");
+                humiValue.setText(weather.getMain().getHumidity() + " %");
             }
         });
 
-        getCurrenceButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                service.setCountry(countryField.getText());
-                service.setCity(cityField.getText());
-                service.setCurrency(service.getCountryCurrency(countryField.getText()));
+        getCurrencyButton.addActionListener(e -> {
+            service.setCountry(countryField.getText());
+            service.setCurrency(ServiceHelp.getCountryCurrency(countryField.getText()));
 
+            double rateFor = service.getRateFor(currencyField.getText());
+            double rate = service.getNBPRate();
 
-                double rate = service.getRateFor(currencyField.getText());
-                double rateFor = service.getRateFor(service.getCountryCurrency(countryField.getText()));
-                rateValue.setText(String.valueOf(rateFor / rate));
-                NBPValue.setText(String.valueOf(service.getNBPRate()));
-                mainFrame.repaint();
-                mainFrame.pack();
-            }
+            rateValue.setText(String.valueOf(rateFor));
+            NBPValue.setText(String.valueOf(rate));
         });
 
 
-        getWebsiteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String url = "https://en.wikipedia.org/wiki/%s";
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        WebView webView = new WebView();
-                        WebEngine webEngine = webView.getEngine();
-                        webEngine.load(String.format(url, cityField.getText()));
-                        jfxPanel.setScene(new Scene(webView));
-                        mainFrame.revalidate();
-                        mainFrame.repaint();
-                        mainFrame.pack();
-                    }
-                });
-                webPanel.removeAll();
-                webPanel.add(jfxPanel);
-                mainFrame.revalidate();
-                mainFrame.repaint();
-                mainFrame.pack();
-            }
+        getWebsiteButton.addActionListener(e -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    WebView webView = new WebView();
+                    WebEngine webEngine = webView.getEngine();
+                    webEngine.load(String.format(WEBSITE_URL, cityField.getText()));
+                    jfxPanel.setScene(new Scene(webView));
+                }
+            });
+            webPanel.removeAll();
+            webPanel.add(jfxPanel);
+            mainFrame.revalidate();
+            mainFrame.repaint();
+            mainFrame.pack();
         });
     }
+
 }
