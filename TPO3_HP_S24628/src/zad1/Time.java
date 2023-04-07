@@ -17,34 +17,74 @@ public class Time {
             Period period = Period.between(date1, date2);
             long days = ChronoUnit.DAYS.between(date1, date2);
             double weeks = (double) days / 7;
-            String result = "Od " + formatDate(date1) + " (" + formatDayOfWeek(date1) + ") do " + formatDate(date2) + " (" + formatDayOfWeek(date2) + ")\n";
-            result += "- mija: " + days + " dni, tygodni " + String.format("%.2f", weeks) + "\n";
+            String hour1 = "";
+            String hour2 = "";
+            if (from.contains("T") && to.contains("T")) {
+                hour1 += "godz. " + fromDate.getHour() + ":";
+                hour2 += "godz. " + toDate.getHour() + ":";
+
+                if ((fromDate.getMinute() + "").length() == 2) {
+                    hour1 += fromDate.getMinute();
+                } else {
+                    hour1 += "0" + fromDate.getMinute() + " ";
+                }
+
+                if ((toDate.getMinute() + "").length() == 2) {
+                    hour2 += toDate.getMinute();
+                } else {
+                    hour2 += "0" + toDate.getMinute() + " ";
+                }
+            }
+            String formattedWeek = String.format("%.2f", weeks).replace(",", ".");
+
+            if (formattedWeek.equals("0.00")){
+                formattedWeek = "0";
+            }
+
+            String result = "Od " + formatDate(date1) + " (" + formatDayOfWeek(date1) + ") " + hour1 + "do " + formatDate(date2) + " (" + formatDayOfWeek(date2) + ") " + hour2 + "\n";
+            result += " - mija: " + days + " " + getDay(days) + ", tygodni " + formattedWeek + "\n";
+
+            //nie ma zmiany czasu
+            if (from.contains("T") && to.contains("T")) {
+                long hours = ChronoUnit.HOURS.between(fromDate, toDate);
+                long minutes = ChronoUnit.MINUTES.between(fromDate, toDate) % 60 + hours * 60;
+                result += " - godzin: " + hours + ", minut: " + minutes + "\n";
+            }
+
             if (days >= 1) {
                 long years = period.getYears();
                 long months = period.getMonths();
                 int remainingDays = period.getDays();
                 if (years > 0 || months > 0 || remainingDays > 0) {
-                    result += "- kalendarzowo: ";
+                    result += " - kalendarzowo: ";
+                    boolean comm = false;
                     if (years > 0) {
-                        result += years + " " + (years == 1 ? "rok" : (years % 10 >= 2 && years % 10 <= 4 && (years % 100 < 10 || years % 100 >= 20) ? "lata" : "lat")) + ", ";
+                        result += years + " " + (years == 1 ? "rok" : (years % 10 >= 2 && years % 10 <= 4 && (years % 100 < 10 || years % 100 >= 20) ? "lata" : "lat"));
+                        comm = true;
                     }
                     if (months > 0) {
-                        result += months + " " +  (months == 1 ? "miesiąc" : (months % 10 >= 2 && months % 10 <= 4 && (months % 100 < 10 || months % 100 >= 20) ? "miesiące" : "miesięcy")) + ", ";
+                        if (comm) {
+                            result += ", ";
+                        }
+                        result += months + " " + (months == 1 ? "miesiąc" : (months % 10 >= 2 && months % 10 <= 4 && (months % 100 < 10 || months % 100 >= 20) ? "miesiące" : "miesięcy"));
+                        comm = true;
                     }
                     if (remainingDays > 0) {
-                        result += remainingDays + " " + (remainingDays == 1 ? "dzień" : "dni") + " ";
+                        if (comm) {
+                            result += ", ";
+                        }
+                        result += remainingDays + " " + getDay(remainingDays) + " ";
                     }
                 }
-            }
-            if (fromDate.getHour() != toDate.getHour() || fromDate.getMinute() != toDate.getMinute()) {
-                long hours = ChronoUnit.HOURS.between(fromDate, toDate);
-                long minutes = ChronoUnit.MINUTES.between(fromDate, toDate) % 60;
-                result += "- godzin: " + hours + ", minut: " + minutes;
             }
             return result;
         } catch (DateTimeParseException e) {
             return "*** java.time.format.DateTimeParseException: " + e.getMessage();
         }
+    }
+
+    private static String getDay(double remainingDays) {
+        return (remainingDays == 1 ? "dzień" : "dni");
     }
 
     private static LocalDateTime parseDateTime(String dateTime) {
