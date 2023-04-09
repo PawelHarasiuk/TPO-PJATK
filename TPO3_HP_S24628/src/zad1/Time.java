@@ -7,7 +7,6 @@ import java.util.*;
 
 
 public class Time {
-
     public static String passed(String from, String to) {
         try {
             LocalDateTime fromDate = parseDateTime(from);
@@ -17,22 +16,23 @@ public class Time {
             Period period = Period.between(date1, date2);
             long days = ChronoUnit.DAYS.between(date1, date2);
             double weeks = (double) days / 7;
-            String hour1 = "";
-            String hour2 = "";
+            String hourFrom = "";
+            String hourTo = "";
+
             if (from.contains("T") && to.contains("T")) {
-                hour1 += "godz. " + fromDate.getHour() + ":";
-                hour2 += "godz. " + toDate.getHour() + ":";
+                hourFrom += "godz. " + fromDate.getHour() + ":";
+                hourTo += " godz. " + toDate.getHour() + ":";
 
                 if ((fromDate.getMinute() + "").length() == 2) {
-                    hour1 += fromDate.getMinute();
+                    hourFrom += fromDate.getMinute();
                 } else {
-                    hour1 += "0" + fromDate.getMinute() + " ";
+                    hourFrom += "0" + fromDate.getMinute() + " ";
                 }
 
                 if ((toDate.getMinute() + "").length() == 2) {
-                    hour2 += toDate.getMinute();
+                    hourTo += toDate.getMinute();
                 } else {
-                    hour2 += "0" + toDate.getMinute() + " ";
+                    hourTo += "0" + toDate.getMinute();
                 }
             }
             String formattedWeek = String.format("%.2f", weeks).replace(",", ".");
@@ -41,13 +41,15 @@ public class Time {
                 formattedWeek = "0";
             }
 
-            String result = "Od " + formatDate(date1) + " (" + formatDayOfWeek(date1) + ") " + hour1 + "do " + formatDate(date2) + " (" + formatDayOfWeek(date2) + ") " + hour2 + "\n";
+            String result = "Od " + formatDate(date1) + " (" + formatDayOfWeek(date1) + ") " + hourFrom + "do " + formatDate(date2) + " (" + formatDayOfWeek(date2) + ")" + hourTo + "\n";
             result += " - mija: " + days + " " + getDay(days) + ", tygodni " + formattedWeek + "\n";
 
-            //nie ma zmiany czasu
             if (from.contains("T") && to.contains("T")) {
-                long hours = ChronoUnit.HOURS.between(fromDate, toDate);
-                long minutes = ChronoUnit.MINUTES.between(fromDate, toDate) % 60 + hours * 60;
+                ZoneId zoneId = ZoneId.of("Europe/Warsaw");
+                ZonedDateTime fromDateTime = fromDate.atZone(zoneId);
+                ZonedDateTime toDateTime = toDate.atZone(zoneId);
+                long hours = ChronoUnit.HOURS.between(fromDateTime, toDateTime);
+                long minutes = ChronoUnit.MINUTES.between(fromDateTime, toDateTime) % 60 + hours * 60;
                 result += " - godzin: " + hours + ", minut: " + minutes + "\n";
             }
 
@@ -73,7 +75,7 @@ public class Time {
                         if (comm) {
                             result += ", ";
                         }
-                        result += remainingDays + " " + getDay(remainingDays) + " ";
+                        result += remainingDays + " " + getDay(remainingDays);
                     }
                 }
             }
