@@ -5,15 +5,16 @@
 package zad1;
 
 import java.io.*;
-import java.net.Socket;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 
 public class Client {
     private final String host;
     private final int port;
     private final String id;
-    private Socket socket;
-    private BufferedReader in;
-    private PrintWriter out;
+    private SocketChannel socketChannel;
+    private ByteBuffer buffer;
 
     public Client(String host, int port, String id) {
         this.host = host;
@@ -23,9 +24,24 @@ public class Client {
 
     public void connect() {
         try {
-            socket = new Socket(host, port);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+            socketChannel = SocketChannel.open();
+            socketChannel.configureBlocking(false);
+            socketChannel.connect(new InetSocketAddress(host, port));
+            int n = 10;
+            while (!socketChannel.finishConnect()) {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                n--;
+                if (n <= 0) try {
+                    throw new Exception("connection timeout");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            buffer = ByteBuffer.allocate(1024);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,14 +49,24 @@ public class Client {
     }
 
     public String send(String req) {
-        out.println(req);
-        String res = null;
         try {
-            res = in.readLine();
+            buffer.clear();
+            buffer.put(req.getBytes());
+            buffer.flip();
+            while (buffer.hasRemaining()) {
+                socketChannel.write(buffer);
+            }
+            buffer.clear();
+            socketChannel.read(buffer);
+            buffer.flip();
+
+            byte[] resBytes = new byte[buffer.limit()];
+            buffer.get(resBytes);
+            return new String(resBytes);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return res;
+        return null;
     }
 
     public String getId() {
@@ -49,14 +75,8 @@ public class Client {
 
 
     public void disconnect() throws IOException {
-        if (socket != null) {
-            socket.close();
-        }
-        if (in != null) {
-            in.close();
-        }
-        if (out != null) {
-            out.close();
+        if (socketChannel != null) {
+            socketChannel.close();
         }
     }
 }

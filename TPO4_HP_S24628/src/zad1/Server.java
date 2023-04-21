@@ -104,7 +104,7 @@ public class Server {
 
     private void processRequest(SocketChannel clientChannel, String request) throws IOException {
         LocalTime time = LocalTime.now();
-        String response = "llaadasd";
+        String response = "aaaaa";
         if (request.startsWith("===")) {
             String[] parts = request.split(" ");
             if (parts.length >= 3 && parts[2].equals("log") && parts[3].equals("start")) {

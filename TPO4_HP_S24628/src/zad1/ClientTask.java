@@ -5,7 +5,6 @@
 package zad1;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
@@ -20,6 +19,7 @@ public class ClientTask extends FutureTask<String> {
         return new ClientTask(() -> {
             c.connect();
             StringBuilder sb = new StringBuilder();
+
             if (showSendRes) {
                 String loginRequest = "=== " + c.getId() + " log start ===";
                 String response = c.send(loginRequest);
@@ -28,6 +28,7 @@ public class ClientTask extends FutureTask<String> {
 
                 for (String req : reqs) {
                     response = c.send(req);
+
                     sb.append("Request: ").append(req).append("\n");
                     sb.append("Result:\n").append(response).append("\n");
                 }
@@ -38,6 +39,7 @@ public class ClientTask extends FutureTask<String> {
                 String end = "=== " + c.getId() + " log end ===";
                 sb.append(end).append("\n");
             }
+
 
             c.disconnect();
             return sb.toString();
