@@ -20,35 +20,24 @@ public class ClientTask extends FutureTask<String> {
         return new ClientTask(() -> {
             c.connect();
             StringBuilder sb = new StringBuilder();
-
-
-            String loginRequest = "=== " + c.getId() + " log start ===";
-            String response = c.send(loginRequest);
-            sb.append(loginRequest);
             if (showSendRes) {
-                //System.out.println(loginRequest);
-                //System.out.println(response);
-            }
+                String loginRequest = "=== " + c.getId() + " log start ===";
+                String response = c.send(loginRequest);
+                sb.append(loginRequest).append("\n");
+                sb.append(response).append("\n");
 
-            for (String req : reqs) {
-                response = c.send(req);
-                if (showSendRes) {
-                    //System.out.println("SENT: " + req);
-                    //System.out.println("RECEIVED: " + response);
+                for (String req : reqs) {
+                    response = c.send(req);
+                    sb.append("Request: ").append(req).append("\n");
+                    sb.append("Result:\n").append(response).append("\n");
                 }
-            }
 
-            String byeRequest = "bye and log transfer";
-            response = c.send(byeRequest);
-            if (showSendRes) {
-                //System.out.println("SENT: " + byeRequest);
-                //System.out.println("RECEIVED: " + response);
+                String byeRequest = "bye and log transfer";
+                response = c.send(byeRequest);
+                sb.append(response).append("\n");
+                String end = "=== " + c.getId() + " log end ===";
+                sb.append(end).append("\n");
             }
-
-            //String log = c.receiveLog();
-            String log = "";
-            //System.out.println("LOG for client " + c.getId() + ":");
-            //System.out.println(log);
 
             c.disconnect();
             return sb.toString();

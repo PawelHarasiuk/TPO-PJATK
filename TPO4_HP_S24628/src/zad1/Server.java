@@ -104,33 +104,39 @@ public class Server {
 
     private void processRequest(SocketChannel clientChannel, String request) throws IOException {
         LocalTime time = LocalTime.now();
+        String response = "llaadasd";
         if (request.startsWith("===")) {
             String[] parts = request.split(" ");
             if (parts.length >= 3 && parts[2].equals("log") && parts[3].equals("start")) {
                 String clientName = parts[1];
                 clientChannel.keyFor(selector).attach(clientName); // Attach the client name to the SelectionKey object
                 serverLog.append(clientName).append(" logged in at ").append(time).append("\n");
+                response = "logged in";
             }
         }
 
         if (request.equals("bye")) {
             //String clientName = (String) clientChannel.keyFor(selector).attachment();
             //serverLog.append(clientName).append(" logged out at ").append(time).append("\n");
+            response = "logged out";
             clientChannel.close();
         } else if (request.equals("bye and log transfer")) {
-            // Implement log transfer functionality here
             String clientName = (String) clientChannel.keyFor(selector).attachment();
-            //serverLog.append(clientName).append(" logged out at ").append(time).append("\n");
+            serverLog.append(clientName).append(" logged out at ").append(time).append("\n");
+            response = "logged out";
+
             clientChannel.close();
         } else {
             String clientName = (String) clientChannel.keyFor(selector).attachment();
             if (!request.equals("") && !request.startsWith("===")) {
                 serverLog.append(clientName).append(" request ").append(time).append(": \"").append(request).append("\"\n");
+                String[] dates = request.split(" +");
+
+                response = Time.passed(dates[0], dates[1]);
             }
-
-            ByteBuffer buffer = StandardCharsets.UTF_8.encode("Response to request from " + clientName + "\n");
-
-            clientChannel.write(buffer);
         }
+        ByteBuffer buffer = StandardCharsets.UTF_8.encode(response + "\n");
+
+        clientChannel.write(buffer);
     }
 }
