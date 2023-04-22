@@ -1,7 +1,8 @@
 /**
- * @author Harasiuk Paweł S24628
+ *
+ *  @author Harasiuk Paweł S24628
+ *
  */
-
 package zad1;
 
 
@@ -28,12 +29,12 @@ public class ClientTask extends FutureTask<String> {
 
             String byeRequest = "bye and log transfer";
             if (!showSendRes) {
-                c.send("bye");
+                byeRequest = "bye";
+                c.send(byeRequest);
                 return "";
             }
 
-            c.send(byeRequest);
-            return c.getLog();
+            return c.send(byeRequest);
         });
     }
 }

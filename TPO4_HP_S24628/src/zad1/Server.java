@@ -1,5 +1,7 @@
 /**
- * @author Harasiuk Paweł S24628
+ *
+ *  @author Harasiuk Paweł S24628
+ *
  */
 
 package zad1;
@@ -15,7 +17,9 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 public class Server {
@@ -23,6 +27,7 @@ public class Server {
     private boolean isRunning;
     private final StringBuilder serverLog = new StringBuilder();
     private Thread serverThread;
+    private final Map<String, StringBuilder> userLogs = new HashMap<>();
 
     public Server(String host, int port) {
         try {
@@ -104,22 +109,28 @@ public class Server {
         if (request.contains("bye")) {
             String clientName = (String) clientChannel.keyFor(selector).attachment();
             serverLog.append(clientName).append(" logged out at ").append(formattedTime).append("\n");
-            response = "logged out";
+            userLogs.get(clientName).append("logged out").append("\n");
+            userLogs.get(clientName).append("=== ").append(clientName).append(" log end ===").append("\n");
+            response = userLogs.get(clientName).toString();
         } else if (request.contains("login")) {
             String[] parts = request.split(" ");
             String clientName = parts[1];
-            clientChannel.keyFor(selector).attach(clientName); // Attach the client name to the SelectionKey object
+            clientChannel.keyFor(selector).attach(clientName);
             serverLog.append(clientName).append(" logged in at ").append(formattedTime).append("\n");
             response = "logged in";
+            userLogs.put(clientName, new StringBuilder());
+            userLogs.get(clientName).append("=== ").append(clientName).append(" log start ===").append("\n");
+            userLogs.get(clientName).append(response).append("\n");
         } else {
             String clientName = (String) clientChannel.keyFor(selector).attachment();
             if (!request.equals("") && !request.contains("===")) {
                 serverLog.append(clientName).append(" request ").append(formattedTime).append(": \"").append(request).append("\"\n");
                 String[] dates = request.split(" +");
                 response = Time.passed(dates[0], dates[1]);
+                userLogs.get(clientName).append("Request: ").append(request).append("\n");
+                userLogs.get(clientName).append("Result:\n").append(response).append("\n");
             }
         }
-
         ByteBuffer buffer = StandardCharsets.UTF_8.encode(response);
         clientChannel.write(buffer);
     }

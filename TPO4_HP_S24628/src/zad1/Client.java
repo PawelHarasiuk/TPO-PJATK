@@ -1,5 +1,7 @@
 /**
- * @author Harasiuk Paweł S24628
+ *
+ *  @author Harasiuk Paweł S24628
+ *
  */
 
 package zad1;
@@ -17,7 +19,6 @@ public class Client {
     private final int port;
     private final String id;
     private SocketChannel socketChannel;
-    private final StringBuilder log = new StringBuilder();
 
     public Client(String host, int port, String id) {
         this.host = host;
@@ -53,7 +54,7 @@ public class Client {
         Charset charset = StandardCharsets.UTF_8;
         ByteBuffer bufferOut = charset.encode(CharBuffer.wrap(req + "@"));
         ByteBuffer bufferIn = ByteBuffer.allocate(1800);
-
+        String res = "";
         try {
             socketChannel.write(bufferOut);
             bufferIn.clear();
@@ -64,21 +65,17 @@ public class Client {
             }
             bufferIn.flip();
             CharBuffer charBuffer = charset.decode(bufferIn);
-            String res = charBuffer.toString();
+            res = charBuffer.toString();
 
-            if (req.contains("login")) {
-                log.append("=== ").append(getId()).append(" log start ===").append("\n");
-                log.append(res).append("\n");
-            } else if (req.contains("bye")) {
-                log.append(res).append("\n");
-                log.append("=== ").append(getId()).append(" log end ===").append("\n");
+            if (req.equals("bye")) {
                 if (socketChannel != null) {
                     socketChannel.close();
                 }
-                return log.toString();
-            } else {
-                log.append("Request: ").append(req).append("\n");
-                log.append("Result:\n").append(res).append("\n");
+                return "";
+            } else if (req.equals("bye and log transfer")) {
+                if (socketChannel != null) {
+                    socketChannel.close();
+                }
                 return res;
             }
         } catch (IOException e) {
@@ -86,16 +83,10 @@ public class Client {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-        return null;
+        return res;
     }
-
 
     public String getId() {
         return id;
-    }
-
-    public String getLog() {
-        return log.toString();
     }
 }
