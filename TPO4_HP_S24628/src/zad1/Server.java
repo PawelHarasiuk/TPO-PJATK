@@ -14,6 +14,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -47,9 +48,30 @@ public class Server {
                         SelectionKey key = iter.next();
                         iter.remove();
                         if (key.isAcceptable()) {
-                            accept(key);
+                            ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
+                            SocketChannel clientChannel = serverChannel.accept();
+                            clientChannel.configureBlocking(false);
+                            clientChannel.register(selector, SelectionKey.OP_READ);
                         } else if (key.isReadable()) {
-                            read(key);
+                            SocketChannel clientChannel = (SocketChannel) key.channel();
+                            ByteBuffer buffer = ByteBuffer.allocate(1024);
+                            StringBuilder request = new StringBuilder();
+                            int bytesRead = clientChannel.read(buffer);
+                            while (bytesRead > 0) {
+                                buffer.flip();
+                                CharBuffer charBuffer = StandardCharsets.UTF_8.decode(buffer);
+                                while (charBuffer.hasRemaining()) {
+                                    char c = charBuffer.get();
+                                    if (c == '@') {
+                                        processRequest(clientChannel, request.toString().trim());
+                                        request = new StringBuilder();
+                                    } else {
+                                        request.append(c);
+                                    }
+                                }
+                                buffer.clear();
+                                bytesRead = clientChannel.read(buffer);
+                            }
                         }
                     }
                 } catch (IOException e) {
@@ -65,7 +87,7 @@ public class Server {
         try {
             serverThread.join();
         } catch (InterruptedException e) {
-            serverLog.append(e.getMessage()).append("\n");
+            e.printStackTrace();
         }
     }
 
@@ -73,70 +95,32 @@ public class Server {
         return serverLog.toString();
     }
 
-    private void accept(SelectionKey key) throws IOException {
-        ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
-        SocketChannel clientChannel = serverChannel.accept();
-        clientChannel.configureBlocking(false);
-        clientChannel.register(selector, SelectionKey.OP_READ);
-    }
-
-    private void read(SelectionKey key) throws IOException {
-        SocketChannel clientChannel = (SocketChannel) key.channel();
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
-        StringBuilder request = new StringBuilder();
-        int bytesRead = clientChannel.read(buffer);
-        while (bytesRead > 0) {
-            buffer.flip();
-            CharBuffer charBuffer = StandardCharsets.UTF_8.decode(buffer);
-            while (charBuffer.hasRemaining()) {
-                char c = charBuffer.get();
-                if (c == '\r' || c == '\n') {
-                    processRequest(clientChannel, request.toString().trim());
-                    request = new StringBuilder();
-                } else {
-                    request.append(c);
-                }
-            }
-            buffer.clear();
-            bytesRead = clientChannel.read(buffer);
-        }
-    }
 
     private void processRequest(SocketChannel clientChannel, String request) throws IOException {
         LocalTime time = LocalTime.now();
-        String response = "aaaaa";
-        if (request.startsWith("===")) {
-            String[] parts = request.split(" ");
-            if (parts.length >= 3 && parts[2].equals("log") && parts[3].equals("start")) {
-                String clientName = parts[1];
-                clientChannel.keyFor(selector).attach(clientName); // Attach the client name to the SelectionKey object
-                serverLog.append(clientName).append(" logged in at ").append(time).append("\n");
-                response = "logged in";
-            }
-        }
+        String formattedTime = time.format(DateTimeFormatter.ofPattern("HH:mm:ss.SSS"));
+        String response = "";
 
-        if (request.equals("bye")) {
-            //String clientName = (String) clientChannel.keyFor(selector).attachment();
-            //serverLog.append(clientName).append(" logged out at ").append(time).append("\n");
-            response = "logged out";
-            clientChannel.close();
-        } else if (request.equals("bye and log transfer")) {
+        if (request.contains("bye")) {
             String clientName = (String) clientChannel.keyFor(selector).attachment();
-            serverLog.append(clientName).append(" logged out at ").append(time).append("\n");
+            serverLog.append(clientName).append(" logged out at ").append(formattedTime).append("\n");
             response = "logged out";
-
-            clientChannel.close();
+        } else if (request.contains("login")) {
+            String[] parts = request.split(" ");
+            String clientName = parts[1];
+            clientChannel.keyFor(selector).attach(clientName); // Attach the client name to the SelectionKey object
+            serverLog.append(clientName).append(" logged in at ").append(formattedTime).append("\n");
+            response = "logged in";
         } else {
             String clientName = (String) clientChannel.keyFor(selector).attachment();
-            if (!request.equals("") && !request.startsWith("===")) {
-                serverLog.append(clientName).append(" request ").append(time).append(": \"").append(request).append("\"\n");
+            if (!request.equals("") && !request.contains("===")) {
+                serverLog.append(clientName).append(" request ").append(formattedTime).append(": \"").append(request).append("\"\n");
                 String[] dates = request.split(" +");
-
                 response = Time.passed(dates[0], dates[1]);
             }
         }
-        ByteBuffer buffer = StandardCharsets.UTF_8.encode(response + "\n");
 
+        ByteBuffer buffer = StandardCharsets.UTF_8.encode(response);
         clientChannel.write(buffer);
     }
 }

@@ -22,7 +22,7 @@ public class Main {
     Map<String, List<String>> clRequests = opts.getClientsMap();
     ExecutorService es = Executors.newCachedThreadPool();
     List<ClientTask> ctasks = new ArrayList<>();
-    List<String> clogs = new ArrayList<>(); 
+    List<String> clogs = new ArrayList<>();
 
     Server s = new Server(host, port);
     s.startServer();
@@ -62,5 +62,4 @@ public class Main {
     System.out.println("\n=== Server log ===");
     System.out.println(s.getServerLog());
   }
-
 }

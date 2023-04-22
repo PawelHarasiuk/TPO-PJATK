@@ -7,14 +7,17 @@ package zad1;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class Client {
     private final String host;
     private final int port;
     private final String id;
     private SocketChannel socketChannel;
-    private ByteBuffer buffer;
+    private final StringBuilder log = new StringBuilder();
 
     public Client(String host, int port, String id) {
         this.host = host;
@@ -41,42 +44,58 @@ public class Client {
                     e.printStackTrace();
                 }
             }
-            buffer = ByteBuffer.allocate(1024);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public String send(String req) {
-        try {
-            buffer.clear();
-            buffer.put(req.getBytes());
-            buffer.flip();
-            while (buffer.hasRemaining()) {
-                socketChannel.write(buffer);
-            }
-            buffer.clear();
-            socketChannel.read(buffer);
-            buffer.flip();
+        Charset charset = StandardCharsets.UTF_8;
+        ByteBuffer bufferOut = charset.encode(CharBuffer.wrap(req + "@"));
+        ByteBuffer bufferIn = ByteBuffer.allocate(1800);
 
-            byte[] resBytes = new byte[buffer.limit()];
-            buffer.get(resBytes);
-            return new String(resBytes);
+        try {
+            socketChannel.write(bufferOut);
+            bufferIn.clear();
+            int n = socketChannel.read(bufferIn);
+            while (n == 0) {
+                Thread.sleep(10);
+                n = socketChannel.read(bufferIn);
+            }
+            bufferIn.flip();
+            CharBuffer charBuffer = charset.decode(bufferIn);
+            String res = charBuffer.toString();
+
+            if (req.contains("login")) {
+                log.append("=== ").append(getId()).append(" log start ===").append("\n");
+                log.append(res).append("\n");
+            } else if (req.contains("bye")) {
+                log.append(res).append("\n");
+                log.append("=== ").append(getId()).append(" log end ===").append("\n");
+                if (socketChannel != null) {
+                    socketChannel.close();
+                }
+                return log.toString();
+            } else {
+                log.append("Request: ").append(req).append("\n");
+                log.append("Result:\n").append(res).append("\n");
+                return res;
+            }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+
         return null;
     }
+
 
     public String getId() {
         return id;
     }
 
-
-    public void disconnect() throws IOException {
-        if (socketChannel != null) {
-            socketChannel.close();
-        }
+    public String getLog() {
+        return log.toString();
     }
 }

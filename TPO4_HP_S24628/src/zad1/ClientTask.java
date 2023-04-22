@@ -18,31 +18,22 @@ public class ClientTask extends FutureTask<String> {
     public static ClientTask create(Client c, List<String> reqs, boolean showSendRes) {
         return new ClientTask(() -> {
             c.connect();
-            StringBuilder sb = new StringBuilder();
 
-            if (showSendRes) {
-                String loginRequest = "=== " + c.getId() + " log start ===";
-                String response = c.send(loginRequest);
-                sb.append(loginRequest).append("\n");
-                sb.append(response).append("\n");
+            String log = "login " + c.getId();
+            c.send(log);
 
-                for (String req : reqs) {
-                    response = c.send(req);
-
-                    sb.append("Request: ").append(req).append("\n");
-                    sb.append("Result:\n").append(response).append("\n");
-                }
-
-                String byeRequest = "bye and log transfer";
-                response = c.send(byeRequest);
-                sb.append(response).append("\n");
-                String end = "=== " + c.getId() + " log end ===";
-                sb.append(end).append("\n");
+            for (String req : reqs) {
+                c.send(req);
             }
 
+            String byeRequest = "bye and log transfer";
+            if (!showSendRes) {
+                c.send("bye");
+                return "";
+            }
 
-            c.disconnect();
-            return sb.toString();
+            c.send(byeRequest);
+            return c.getLog();
         });
     }
 }
