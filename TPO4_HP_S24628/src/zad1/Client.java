@@ -67,16 +67,10 @@ public class Client {
             CharBuffer charBuffer = charset.decode(bufferIn);
             res = charBuffer.toString();
 
-            if (req.equals("bye")) {
+            if (req.contains("bye")) {
                 if (socketChannel != null) {
                     socketChannel.close();
                 }
-                return "";
-            } else if (req.equals("bye and log transfer")) {
-                if (socketChannel != null) {
-                    socketChannel.close();
-                }
-                return res;
             }
         } catch (IOException e) {
             e.printStackTrace();

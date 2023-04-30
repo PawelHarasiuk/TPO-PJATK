@@ -11,30 +11,27 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
 public class ClientTask extends FutureTask<String> {
-
     public ClientTask(Callable<String> callable) {
         super(callable);
     }
 
     public static ClientTask create(Client c, List<String> reqs, boolean showSendRes) {
         return new ClientTask(() -> {
+            String response;
             c.connect();
 
             String log = "login " + c.getId();
-            c.send(log);
-
+            response = c.send(log);
+            if (showSendRes) System.out.println(response);
             for (String req : reqs) {
-                c.send(req);
+                response = c.send(req);
+                if (showSendRes) System.out.println(response);
             }
-
             String byeRequest = "bye and log transfer";
-            if (!showSendRes) {
-                byeRequest = "bye";
-                c.send(byeRequest);
-                return "";
-            }
+            response = c.send(byeRequest);
+            if (showSendRes) System.out.println(response);
 
-            return c.send(byeRequest);
+            return response;
         });
     }
 }
