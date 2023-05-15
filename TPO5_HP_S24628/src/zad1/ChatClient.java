@@ -1,5 +1,7 @@
 /**
- * @author Harasiuk Paweł S24628
+ *
+ *  @author Harasiuk Paweł S24628
+ *
  */
 
 package zad1;
@@ -34,12 +36,12 @@ public class ChatClient extends Thread {
             sc.configureBlocking(false);
             int n = 20;
             while (!sc.finishConnect()) {
+                System.out.println(n);
                 Thread.sleep(50);
                 n--;
                 if (n <= 0) throw new Exception("connection timeout");
             }
             this.request("login " + this.id);
-            this.chatView.append(id).append(" logged in\n");
 
             this.start();
         } catch (Exception e) {
@@ -50,8 +52,7 @@ public class ChatClient extends Thread {
     public void logout() {
         try {
             this.request("bye");
-            this.chatView.append(id).append(" logged out");
-
+            Thread.sleep(50);
             lock.lock();
             this.interrupt();
         } catch (Exception e) {
@@ -87,31 +88,17 @@ public class ChatClient extends Thread {
                     Charset charset = StandardCharsets.UTF_8;
                     CharBuffer cbuf = charset.decode(buffer);
                     StringBuilder stringBuffer = new StringBuilder();
-                    boolean hasReadFullLine = false;
 
                     while (cbuf.hasRemaining()) {
                         char c = cbuf.get();
-
-                        if (c == '@') {
-                            hasReadFullLine = true;
-                            break;
-                        } else {
-                            stringBuffer.append(c);
-                        }
+                        stringBuffer.append(c);
                     }
 
                     String response = stringBuffer.toString().trim();
-                    if (!(response.contains(id) && response.contains("logged"))) {
-                        if (response.trim().startsWith(id + ":")) {
-                            this.chatView.append(response.replace(":", "")).append("\n");
-                        } else {
-                            this.chatView.append(response).append("\n");
-                        }
-                    }
-
-
-                    if (hasReadFullLine) {
-                        break;
+                    if (response.trim().startsWith(id + ":")) {
+                        this.chatView.append(response.replace(":", "")).append("\n");
+                    } else {
+                        this.chatView.append(response).append("\n");
                     }
                 }
             } catch (IOException exception) {
