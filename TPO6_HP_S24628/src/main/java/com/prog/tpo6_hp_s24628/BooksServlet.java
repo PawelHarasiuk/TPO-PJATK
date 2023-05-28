@@ -19,6 +19,8 @@ public class BooksServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html");
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection(url, user, password);
@@ -26,7 +28,9 @@ public class BooksServlet extends HttpServlet {
 
             Statement statement = connection.createStatement();
 
+            ResultSet resultSet;
             PrintWriter out = response.getWriter();
+
 
             // Display the search form
             out.println("<html><head><title>Book Search</title>");
@@ -51,7 +55,6 @@ public class BooksServlet extends HttpServlet {
             out.println("<input type=\"text\" name=\"title\" placeholder=\"Enter title\">");
             out.println("<input type=\"text\" name=\"author\" placeholder=\"Enter author\">");
             out.println("<input type=\"text\" name=\"category\" placeholder=\"Enter category\">");
-
             // Sort options
             out.println("<select name=\"sort\">");
             out.println("<option value=\"\">Sort By</option>");
@@ -64,62 +67,65 @@ public class BooksServlet extends HttpServlet {
             out.println("<button type=\"submit\">Search</button>");
             out.println("</form>");
 
-            // Search
+            // Search for books based on user input
             String searchTitle = request.getParameter("title");
             String searchAuthor = request.getParameter("author");
             String searchCategory = request.getParameter("category");
             String sortOption = request.getParameter("sort");
 
-            StringBuilder queryBuilder = new StringBuilder("SELECT * FROM Books WHERE 1=1");
+            if (searchTitle != null || searchAuthor != null || searchCategory != null) {
+                StringBuilder queryBuilder = new StringBuilder("SELECT * FROM Books WHERE 1=1");
 
-            if (searchTitle != null && !searchTitle.isEmpty()) {
-                queryBuilder.append(" AND title LIKE '%").append(searchTitle).append("%'");
-            }
-
-            if (searchAuthor != null && !searchAuthor.isEmpty()) {
-                queryBuilder.append(" AND Author LIKE '%").append(searchAuthor).append("%'");
-            }
-
-            if (searchCategory != null && !searchCategory.isEmpty()) {
-                queryBuilder.append(" AND category LIKE '%").append(searchCategory).append("%'");
-            }
-
-            if (sortOption != null && !sortOption.isEmpty()) {
-                switch (sortOption) {
-                    case "price_asc":
-                        queryBuilder.append(" ORDER BY price ASC");
-                        break;
-                    case "price_desc":
-                        queryBuilder.append(" ORDER BY price DESC");
-                        break;
-                    case "title_asc":
-                        queryBuilder.append(" ORDER BY title ASC");
-                        break;
-                    case "title_desc":
-                        queryBuilder.append(" ORDER BY title DESC");
-                        break;
+                if (searchTitle != null && !searchTitle.isEmpty()) {
+                    queryBuilder.append(" AND title LIKE '%").append(searchTitle).append("%'");
                 }
-            }
 
-            String searchQuery = queryBuilder.toString();
-            ResultSet resultSet = statement.executeQuery(searchQuery);
+                if (searchAuthor != null && !searchAuthor.isEmpty()) {
+                    queryBuilder.append(" AND Author LIKE '%").append(searchAuthor).append("%'");
+                }
 
-            out.println("<h2>Search Results:</h2>");
-            out.println("<table>");
-            out.println("<tr><th>Title</th><th>Author</th><th>Price</th><th>Category</th>");
-            out.println("</tr>");
+                if (searchCategory != null && !searchCategory.isEmpty()) {
+                    queryBuilder.append(" AND category LIKE '%").append(searchCategory).append("%'");
+                }
 
-            while (resultSet.next()) {
-                out.println("<tr>");
-                out.println("<td>" + resultSet.getString("title") + "</td>");
-                out.println("<td>" + resultSet.getString("Author") + "</td>");
-                out.println("<td>" + resultSet.getDouble("price") + "</td>");
-                out.println("<td>" + resultSet.getString("category") + "</td>");
+                if (sortOption != null && !sortOption.isEmpty()) {
+                    switch (sortOption) {
+                        case "price_asc":
+                            queryBuilder.append(" ORDER BY price ASC");
+                            break;
+                        case "price_desc":
+                            queryBuilder.append(" ORDER BY price DESC");
+                            break;
+                        case "title_asc":
+                            queryBuilder.append(" ORDER BY title ASC");
+                            break;
+                        case "title_desc":
+                            queryBuilder.append(" ORDER BY title DESC");
+                            break;
+                    }
+                }
+
+                String searchQuery = queryBuilder.toString();
+                resultSet = statement.executeQuery(searchQuery);
+
+                out.println("<h2>Search Results:</h2>");
+                out.println("<table>");
+                out.println("<tr><th>Title</th><th>Author</th><th>Price</th><th>Category</th>");
+
                 out.println("</tr>");
+                while (resultSet.next()) {
+                    out.println("<tr>");
+                    out.println("<td>" + resultSet.getString("title") + "</td>");
+                    out.println("<td>" + resultSet.getString("Author") + "</td>");
+                    out.println("<td>" + resultSet.getDouble("price") + "</td>");
+                    out.println("<td>" + resultSet.getString("category") + "</td>");
+
+                    out.println("</tr>");
+                }
+                out.println("</table>");
+                resultSet.close();
             }
 
-            out.println("</table>");
-            resultSet.close();
             statement.close();
             connection.close();
 
