@@ -1,4 +1,4 @@
-package com.prog.tpo6_hp_s24628;
+package zad1.prog.tpo;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,28 +11,20 @@ import java.sql.*;
 
 @WebServlet(name = "bookServlet", value = "")
 public class BooksServlet extends HttpServlet {
-    String host = "db4free.net";
-    String user = "s24628";
-    String password = "newpassword";
-    String database = "pjatk_database";
-    String url = "jdbc:mysql://" + host + "/" + database;
-
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
-
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            String user = "s24628";
+            String password = "newpassword";
+            String host = "db4free.net";
+            String database = "pjatk_database";
+            String url = "jdbc:mysql://" + host + "/" + database;
             Connection connection = DriverManager.getConnection(url, user, password);
-            System.out.println(connection);
-
             Statement statement = connection.createStatement();
 
-            ResultSet resultSet;
             PrintWriter out = response.getWriter();
 
-
-            // Display the search form
             out.println("<html><head><title>Book Search</title>");
             out.println("<style>");
             out.println("body { font-family: Arial, sans-serif; background-color: #F2F2F2; margin: 0; padding: 0; }");
@@ -55,7 +47,6 @@ public class BooksServlet extends HttpServlet {
             out.println("<input type=\"text\" name=\"title\" placeholder=\"Enter title\">");
             out.println("<input type=\"text\" name=\"author\" placeholder=\"Enter author\">");
             out.println("<input type=\"text\" name=\"category\" placeholder=\"Enter category\">");
-            // Sort options
             out.println("<select name=\"sort\">");
             out.println("<option value=\"\">Sort By</option>");
             out.println("<option value=\"price_asc\">Price: Low to High</option>");
@@ -67,7 +58,6 @@ public class BooksServlet extends HttpServlet {
             out.println("<button type=\"submit\">Search</button>");
             out.println("</form>");
 
-            // Search for books based on user input
             String searchTitle = request.getParameter("title");
             String searchAuthor = request.getParameter("author");
             String searchCategory = request.getParameter("category");
@@ -76,37 +66,29 @@ public class BooksServlet extends HttpServlet {
             if (searchTitle != null || searchAuthor != null || searchCategory != null) {
                 StringBuilder queryBuilder = new StringBuilder("SELECT * FROM Books WHERE 1=1");
 
-                if (searchTitle != null && !searchTitle.isEmpty()) {
-                    queryBuilder.append(" AND title LIKE '%").append(searchTitle).append("%'");
-                }
+                queryBuilder.append(" AND title LIKE '%").append(searchTitle).append("%'");
 
-                if (searchAuthor != null && !searchAuthor.isEmpty()) {
-                    queryBuilder.append(" AND Author LIKE '%").append(searchAuthor).append("%'");
-                }
+                queryBuilder.append(" AND Author LIKE '%").append(searchAuthor).append("%'");
 
-                if (searchCategory != null && !searchCategory.isEmpty()) {
-                    queryBuilder.append(" AND category LIKE '%").append(searchCategory).append("%'");
-                }
+                queryBuilder.append(" AND category LIKE '%").append(searchCategory).append("%'");
 
-                if (sortOption != null && !sortOption.isEmpty()) {
-                    switch (sortOption) {
-                        case "price_asc":
-                            queryBuilder.append(" ORDER BY price ASC");
-                            break;
-                        case "price_desc":
-                            queryBuilder.append(" ORDER BY price DESC");
-                            break;
-                        case "title_asc":
-                            queryBuilder.append(" ORDER BY title ASC");
-                            break;
-                        case "title_desc":
-                            queryBuilder.append(" ORDER BY title DESC");
-                            break;
-                    }
+                switch (sortOption) {
+                    case "price_asc":
+                        queryBuilder.append(" ORDER BY price ASC");
+                        break;
+                    case "price_desc":
+                        queryBuilder.append(" ORDER BY price DESC");
+                        break;
+                    case "title_asc":
+                        queryBuilder.append(" ORDER BY title ASC");
+                        break;
+                    case "title_desc":
+                        queryBuilder.append(" ORDER BY title DESC");
+                        break;
                 }
 
                 String searchQuery = queryBuilder.toString();
-                resultSet = statement.executeQuery(searchQuery);
+                ResultSet resultSet = statement.executeQuery(searchQuery);
 
                 out.println("<h2>Search Results:</h2>");
                 out.println("<table>");
