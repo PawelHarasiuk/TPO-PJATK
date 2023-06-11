@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Maven: org.apache.kafka:kafka_2.13:3.4.1">
+    <archive path="C:/Users/User/.m2/repository/org/apache/kafka/kafka_2.13/3.4.1/kafka_2.13-3.4.1.jar" />
+  </library>
+  <library name="Maven: org.apache.kafka:kafka-clients:3.4.1">
+    <archive path="C:/Users/User/.m2/repository/org/apache/kafka/kafka-clients/3.4.1/kafka-clients-3.4.1.jar" />
+  </library>
+  <library name="Maven: com.github.luben:zstd-jni:1.5.2-1">
+    <archive path="C:/Users/User/.m2/repository/com/github/luben/zstd-jni/1.5.2-1/zstd-jni-1.5.2-1.jar" />
+  </library>
+  <library name="Maven: org.lz4:lz4-java:1.8.0">
+    <archive path="C:/Users/User/.m2/repository/org/lz4/lz4-java/1.8.0/lz4-java-1.8.0.jar" />
+  </library>
+  <library name="Maven: org.xerial.snappy:snappy-java:1.1.8.4">
+    <archive path="C:/Users/User/.m2/repository/org/xerial/snappy/snappy-java/1.1.8.4/snappy-java-1.1.8.4.jar" />
+  </library>
+  <library name="Maven: org.scala-lang:scala-library:2.13.10">
+    <archive path="C:/Users/User/.m2/repository/org/scala-lang/scala-library/2.13.10/scala-library-2.13.10.jar" />
+  </library>
+  <library name="Maven: org.apache.kafka:kafka-server-common:3.4.1">
+    <archive path="C:/Users/User/.m2/repository/org/apache/kafka/kafka-server-common/3.4.1/kafka-server-common-3.4.1.jar" />
+  </library>
+  <library name="Maven: org.apache.kafka:kafka-group-coordinator:3.4.1">
+    <archive path="C:/Users/User/.m2/repository/org/apache/kafka/kafka-group-coordinator/3.4.1/kafka-group-coordinator-3.4.1.jar" />
+  </library>
+  <library name="Maven: org.apache.kafka:kafka-metadata:3.4.1">
+    <archive path="C:/Users/User/.m2/repository/org/apache/kafka/kafka-metadata/3.4.1/kafka-metadata-3.4.1.jar" />
+  </library>
+  <library name="Maven: org.apache.kafka:kafka-raft:3.4.1">
+    <archive path="C:/Users/User/.m2/repository/org/apache/kafka/kafka-raft/3.4.1/kafka-raft-3.4.1.jar" />
+  </library>
+  <library name="Maven: org.apache.kafka:kafka-storage:3.4.1">
+    <archive path="C:/Users/User/.m2/repository/org/apache/kafka/kafka-storage/3.4.1/kafka-storage-3.4.1.jar" />
+  </library>
+  <library name="Maven: org.apache.kafka:kafka-storage-api:3.4.1">
+    <archive path="C:/Users/User/.m2/repository/org/apache/kafka/kafka-storage-api/3.4.1/kafka-storage-api-3.4.1.jar" />
+  </library>
+  <library name="Maven: net.sourceforge.argparse4j:argparse4j:0.7.0">
+    <archive path="C:/Users/User/.m2/repository/net/sourceforge/argparse4j/argparse4j/0.7.0/argparse4j-0.7.0.jar" />
+  </library>
+  <library name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.5">
+    <archive path="C:/Users/User/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.13.5/jackson-databind-2.13.5.jar" />
+  </library>
+  <library name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.5">
+    <archive path="C:/Users/User/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.13.5/jackson-annotations-2.13.5.jar" />
+  </library>
+  <library name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.5">
+    <archive path="C:/Users/User/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.13.5/jackson-core-2.13.5.jar" />
+  </library>
+  <library name="Maven: com.fasterxml.jackson.module:jackson-module-scala_2.13:2.13.5">
+    <archive path="C:/Users/User/.m2/repository/com/fasterxml/jackson/module/jackson-module-scala_2.13/2.13.5/jackson-module-scala_2.13-2.13.5.jar" />
+  </library>
+  <library name="Maven: com.thoughtworks.paranamer:paranamer:2.8">
+    <archive path="C:/Users/User/.m2/repository/com/thoughtworks/paranamer/paranamer/2.8/paranamer-2.8.jar" />
+  </library>
+  <library name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.5">
+    <archive path="C:/Users/User/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-csv/2.13.5/jackson-dataformat-csv-2.13.5.jar" />
+  </library>
+  <library name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.5">
+    <archive path="C:/Users/User/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.13.5/jackson-datatype-jdk8-2.13.5.jar" />
+  </library>
+  <library name="Maven: net.sf.jopt-simple:jopt-simple:5.0.4">
+    <archive path="C:/Users/User/.m2/repository/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar" />
+  </library>
+  <library name="Maven: org.bitbucket.b_c:jose4j:0.9.3">
+    <archive path="C:/Users/User/.m2/repository/org/bitbucket/b_c/jose4j/0.9.3/jose4j-0.9.3.jar" />
+  </library>
+  <library name="Maven: com.yammer.metrics:metrics-core:2.2.0">
+    <archive path="C:/Users/User/.m2/repository/com/yammer/metrics/metrics-core/2.2.0/metrics-core-2.2.0.jar" />
+  </library>
+  <library name="Maven: org.scala-lang.modules:scala-collection-compat_2.13:2.10.0">
+    <archive path="C:/Users/User/.m2/repository/org/scala-lang/modules/scala-collection-compat_2.13/2.10.0/scala-collection-compat_2.13-2.10.0.jar" />
+  </library>
+  <library name="Maven: org.scala-lang.modules:scala-java8-compat_2.13:1.0.2">
+    <archive path="C:/Users/User/.m2/repository/org/scala-lang/modules/scala-java8-compat_2.13/1.0.2/scala-java8-compat_2.13-1.0.2.jar" />
+  </library>
+  <library name="Maven: org.scala-lang:scala-reflect:2.13.10">
+    <archive path="C:/Users/User/.m2/repository/org/scala-lang/scala-reflect/2.13.10/scala-reflect-2.13.10.jar" />
+  </library>
+  <library name="Maven: com.typesafe.scala-logging:scala-logging_2.13:3.9.4">
+    <archive path="C:/Users/User/.m2/repository/com/typesafe/scala-logging/scala-logging_2.13/3.9.4/scala-logging_2.13-3.9.4.jar" />
+  </library>
+  <library name="Maven: org.slf4j:slf4j-api:1.7.36">
+    <archive path="C:/Users/User/.m2/repository/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar" />
+  </library>
+  <library name="Maven: io.dropwizard.metrics:metrics-core:4.1.12.1">
+    <archive path="C:/Users/User/.m2/repository/io/dropwizard/metrics/metrics-core/4.1.12.1/metrics-core-4.1.12.1.jar" />
+  </library>
+  <library name="Maven: org.apache.zookeeper:zookeeper:3.6.4">
+    <archive path="C:/Users/User/.m2/repository/org/apache/zookeeper/zookeeper/3.6.4/zookeeper-3.6.4.jar" />
+  </library>
+  <library name="Maven: org.apache.zookeeper:zookeeper-jute:3.6.4">
+    <archive path="C:/Users/User/.m2/repository/org/apache/zookeeper/zookeeper-jute/3.6.4/zookeeper-jute-3.6.4.jar" />
+  </library>
+  <library name="Maven: org.apache.yetus:audience-annotations:0.13.0">
+    <archive path="C:/Users/User/.m2/repository/org/apache/yetus/audience-annotations/0.13.0/audience-annotations-0.13.0.jar" />
+  </library>
+  <library name="Maven: io.netty:netty-handler:4.1.86.Final">
+    <archive path="C:/Users/User/.m2/repository/io/netty/netty-handler/4.1.86.Final/netty-handler-4.1.86.Final.jar" />
+  </library>
+  <library name="Maven: io.netty:netty-common:4.1.86.Final">
+    <archive path="C:/Users/User/.m2/repository/io/netty/netty-common/4.1.86.Final/netty-common-4.1.86.Final.jar" />
+  </library>
+  <library name="Maven: io.netty:netty-resolver:4.1.86.Final">
+    <archive path="C:/Users/User/.m2/repository/io/netty/netty-resolver/4.1.86.Final/netty-resolver-4.1.86.Final.jar" />
+  </library>
+  <library name="Maven: io.netty:netty-buffer:4.1.86.Final">
+    <archive path="C:/Users/User/.m2/repository/io/netty/netty-buffer/4.1.86.Final/netty-buffer-4.1.86.Final.jar" />
+  </library>
+  <library name="Maven: io.netty:netty-transport:4.1.86.Final">
+    <archive path="C:/Users/User/.m2/repository/io/netty/netty-transport/4.1.86.Final/netty-transport-4.1.86.Final.jar" />
+  </library>
+  <library name="Maven: io.netty:netty-transport-native-unix-common:4.1.86.Final">
+    <archive path="C:/Users/User/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.86.Final/netty-transport-native-unix-common-4.1.86.Final.jar" />
+  </library>
+  <library name="Maven: io.netty:netty-codec:4.1.86.Final">
+    <archive path="C:/Users/User/.m2/repository/io/netty/netty-codec/4.1.86.Final/netty-codec-4.1.86.Final.jar" />
+  </library>
+  <library name="Maven: io.netty:netty-transport-native-epoll:4.1.86.Final">
+    <archive path="C:/Users/User/.m2/repository/io/netty/netty-transport-native-epoll/4.1.86.Final/netty-transport-native-epoll-4.1.86.Final.jar" />
+  </library>
+  <library name="Maven: io.netty:netty-transport-classes-epoll:4.1.86.Final">
+    <archive path="C:/Users/User/.m2/repository/io/netty/netty-transport-classes-epoll/4.1.86.Final/netty-transport-classes-epoll-4.1.86.Final.jar" />
+  </library>
+  <library name="Maven: commons-cli:commons-cli:1.4">
+    <archive path="C:/Users/User/.m2/repository/commons-cli/commons-cli/1.4/commons-cli-1.4.jar" />
+  </library>
+  <library name="Maven: org.springframework.kafka:spring-kafka-test:3.0.7">
+    <archive path="C:/Users/User/.m2/repository/org/springframework/kafka/spring-kafka-test/3.0.7/spring-kafka-test-3.0.7.jar" />
+  </library>
+  <library name="Maven: org.springframework:spring-context:6.0.9">
+    <archive path="C:/Users/User/.m2/repository/org/springframework/spring-context/6.0.9/spring-context-6.0.9.jar" />
+  </library>
+  <library name="Maven: org.springframework:spring-aop:6.0.9">
+    <archive path="C:/Users/User/.m2/repository/org/springframework/spring-aop/6.0.9/spring-aop-6.0.9.jar" />
+  </library>
+  <library name="Maven: org.springframework:spring-beans:6.0.9">
+    <archive path="C:/Users/User/.m2/repository/org/springframework/spring-beans/6.0.9/spring-beans-6.0.9.jar" />
+  </library>
+  <library name="Maven: org.springframework:spring-core:6.0.9">
+    <archive path="C:/Users/User/.m2/repository/org/springframework/spring-core/6.0.9/spring-core-6.0.9.jar" />
+  </library>
+  <library name="Maven: org.springframework:spring-jcl:6.0.9">
+    <archive path="C:/Users/User/.m2/repository/org/springframework/spring-jcl/6.0.9/spring-jcl-6.0.9.jar" />
+  </library>
+  <library name="Maven: org.springframework:spring-expression:6.0.9">
+    <archive path="C:/Users/User/.m2/repository/org/springframework/spring-expression/6.0.9/spring-expression-6.0.9.jar" />
+  </library>
+  <library name="Maven: org.springframework:spring-test:6.0.9">
+    <archive path="C:/Users/User/.m2/repository/org/springframework/spring-test/6.0.9/spring-test-6.0.9.jar" />
+  </library>
+  <library name="Maven: org.springframework.retry:spring-retry:2.0.1">
+    <archive path="C:/Users/User/.m2/repository/org/springframework/retry/spring-retry/2.0.1/spring-retry-2.0.1.jar" />
+  </library>
+  <library name="Maven: org.apache.kafka:kafka-clients:test:3.3.2">
+    <archive path="C:/Users/User/.m2/repository/org/apache/kafka/kafka-clients/3.3.2/kafka-clients-3.3.2-test.jar" />
+  </library>
+  <library name="Maven: org.apache.kafka:kafka-streams-test-utils:3.3.2">
+    <archive path="C:/Users/User/.m2/repository/org/apache/kafka/kafka-streams-test-utils/3.3.2/kafka-streams-test-utils-3.3.2.jar" />
+  </library>
+  <library name="Maven: org.apache.kafka:kafka-streams:3.3.2">
+    <archive path="C:/Users/User/.m2/repository/org/apache/kafka/kafka-streams/3.3.2/kafka-streams-3.3.2.jar" />
+  </library>
+  <library name="Maven: org.rocksdb:rocksdbjni:7.1.2">
+    <archive path="C:/Users/User/.m2/repository/org/rocksdb/rocksdbjni/7.1.2/rocksdbjni-7.1.2.jar" />
+  </library>
+  <library name="Maven: org.apache.kafka:kafka_2.13:test:3.3.2">
+    <archive path="C:/Users/User/.m2/repository/org/apache/kafka/kafka_2.13/3.3.2/kafka_2.13-3.3.2-test.jar" />
+  </library>
+  <library name="Maven: org.junit.jupiter:junit-jupiter-api:5.9.2">
+    <archive path="C:/Users/User/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar" />
+  </library>
+  <library name="Maven: org.opentest4j:opentest4j:1.2.0">
+    <archive path="C:/Users/User/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar" />
+  </library>
+  <library name="Maven: org.junit.platform:junit-platform-commons:1.9.2">
+    <archive path="C:/Users/User/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar" />
+  </library>
+  <library name="Maven: org.apiguardian:apiguardian-api:1.1.2">
+    <archive path="C:/Users/User/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar" />
+  </library>
+  <library name="Maven: org.junit.platform:junit-platform-launcher:1.9.2">
+    <archive path="C:/Users/User/.m2/repository/org/junit/platform/junit-platform-launcher/1.9.2/junit-platform-launcher-1.9.2.jar" />
+  </library>
+  <library name="Maven: org.junit.platform:junit-platform-engine:1.9.2">
+    <archive path="C:/Users/User/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar" />
+  </library>
+  <library name="Maven: com.google.code.findbugs:jsr305:3.0.2">
+    <archive path="C:/Users/User/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar" />
+  </library>
+</eclipse-userlibraries>
+

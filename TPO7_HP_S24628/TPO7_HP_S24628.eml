@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component LANGUAGE_LEVEL="JDK_19" jdk="19" jdk_type="JavaSDK">
+	<output-test url="file://$MODULE_DIR$/target/test-classes"/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<testFolder url="file://$MODULE_DIR$/src/test/java"/>
+		<excludeFolder url="file://$MODULE_DIR$/target"/>
+	</contentEntry>
+	<lib name="Maven: com.github.luben:zstd-jni:1.5.2-1" scope="RUNTIME"/>
+	<lib name="Maven: org.lz4:lz4-java:1.8.0" scope="RUNTIME"/>
+	<lib name="Maven: org.xerial.snappy:snappy-java:1.1.8.4" scope="RUNTIME"/>
+	<lib name="Maven: org.apache.kafka:kafka-server-common:3.4.1" scope="RUNTIME"/>
+	<lib name="Maven: org.apache.kafka:kafka-group-coordinator:3.4.1" scope="RUNTIME"/>
+	<lib name="Maven: org.apache.kafka:kafka-raft:3.4.1" scope="RUNTIME"/>
+	<lib name="Maven: org.apache.kafka:kafka-storage:3.4.1" scope="RUNTIME"/>
+	<lib name="Maven: org.apache.kafka:kafka-storage-api:3.4.1" scope="RUNTIME"/>
+	<lib name="Maven: net.sourceforge.argparse4j:argparse4j:0.7.0" scope="RUNTIME"/>
+	<lib name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.5" scope="RUNTIME"/>
+	<lib name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.5" scope="RUNTIME"/>
+	<lib name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.5" scope="RUNTIME"/>
+	<lib name="Maven: com.fasterxml.jackson.module:jackson-module-scala_2.13:2.13.5" scope="RUNTIME"/>
+	<lib name="Maven: com.thoughtworks.paranamer:paranamer:2.8" scope="RUNTIME"/>
+	<lib name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.5" scope="RUNTIME"/>
+	<lib name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.5" scope="RUNTIME"/>
+	<lib name="Maven: net.sf.jopt-simple:jopt-simple:5.0.4" scope="RUNTIME"/>
+	<lib name="Maven: org.bitbucket.b_c:jose4j:0.9.3" scope="RUNTIME"/>
+	<lib name="Maven: com.yammer.metrics:metrics-core:2.2.0" scope="RUNTIME"/>
+	<lib name="Maven: org.scala-lang.modules:scala-collection-compat_2.13:2.10.0" scope="RUNTIME"/>
+	<lib name="Maven: org.scala-lang.modules:scala-java8-compat_2.13:1.0.2" scope="RUNTIME"/>
+	<lib name="Maven: org.scala-lang:scala-reflect:2.13.10" scope="RUNTIME"/>
+	<lib name="Maven: com.typesafe.scala-logging:scala-logging_2.13:3.9.4" scope="RUNTIME"/>
+	<lib name="Maven: io.dropwizard.metrics:metrics-core:4.1.12.1" scope="RUNTIME"/>
+	<lib name="Maven: commons-cli:commons-cli:1.4" scope="RUNTIME"/>
+	<lib name="Maven: com.google.code.findbugs:jsr305:3.0.2" scope="RUNTIME"/>
+	<levels>
+		<level name="Maven: org.apache.kafka:kafka_2.13:3.4.1" value="project"/>
+		<level name="Maven: org.apache.kafka:kafka-clients:3.4.1" value="project"/>
+		<level name="Maven: com.github.luben:zstd-jni:1.5.2-1" value="project"/>
+		<level name="Maven: org.lz4:lz4-java:1.8.0" value="project"/>
+		<level name="Maven: org.xerial.snappy:snappy-java:1.1.8.4" value="project"/>
+		<level name="Maven: org.scala-lang:scala-library:2.13.10" value="project"/>
+		<level name="Maven: org.apache.kafka:kafka-server-common:3.4.1" value="project"/>
+		<level name="Maven: org.apache.kafka:kafka-group-coordinator:3.4.1" value="project"/>
+		<level name="Maven: org.apache.kafka:kafka-metadata:3.4.1" value="project"/>
+		<level name="Maven: org.apache.kafka:kafka-raft:3.4.1" value="project"/>
+		<level name="Maven: org.apache.kafka:kafka-storage:3.4.1" value="project"/>
+		<level name="Maven: org.apache.kafka:kafka-storage-api:3.4.1" value="project"/>
+		<level name="Maven: net.sourceforge.argparse4j:argparse4j:0.7.0" value="project"/>
+		<level name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.5" value="project"/>
+		<level name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.5" value="project"/>
+		<level name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.5" value="project"/>
+		<level name="Maven: com.fasterxml.jackson.module:jackson-module-scala_2.13:2.13.5" value="project"/>
+		<level name="Maven: com.thoughtworks.paranamer:paranamer:2.8" value="project"/>
+		<level name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.5" value="project"/>
+		<level name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.5" value="project"/>
+		<level name="Maven: net.sf.jopt-simple:jopt-simple:5.0.4" value="project"/>
+		<level name="Maven: org.bitbucket.b_c:jose4j:0.9.3" value="project"/>
+		<level name="Maven: com.yammer.metrics:metrics-core:2.2.0" value="project"/>
+		<level name="Maven: org.scala-lang.modules:scala-collection-compat_2.13:2.10.0" value="project"/>
+		<level name="Maven: org.scala-lang.modules:scala-java8-compat_2.13:1.0.2" value="project"/>
+		<level name="Maven: org.scala-lang:scala-reflect:2.13.10" value="project"/>
+		<level name="Maven: com.typesafe.scala-logging:scala-logging_2.13:3.9.4" value="project"/>
+		<level name="Maven: org.slf4j:slf4j-api:1.7.36" value="project"/>
+		<level name="Maven: io.dropwizard.metrics:metrics-core:4.1.12.1" value="project"/>
+		<level name="Maven: org.apache.zookeeper:zookeeper:3.6.4" value="project"/>
+		<level name="Maven: org.apache.zookeeper:zookeeper-jute:3.6.4" value="project"/>
+		<level name="Maven: org.apache.yetus:audience-annotations:0.13.0" value="project"/>
+		<level name="Maven: io.netty:netty-handler:4.1.86.Final" value="project"/>
+		<level name="Maven: io.netty:netty-common:4.1.86.Final" value="project"/>
+		<level name="Maven: io.netty:netty-resolver:4.1.86.Final" value="project"/>
+		<level name="Maven: io.netty:netty-buffer:4.1.86.Final" value="project"/>
+		<level name="Maven: io.netty:netty-transport:4.1.86.Final" value="project"/>
+		<level name="Maven: io.netty:netty-transport-native-unix-common:4.1.86.Final" value="project"/>
+		<level name="Maven: io.netty:netty-codec:4.1.86.Final" value="project"/>
+		<level name="Maven: io.netty:netty-transport-native-epoll:4.1.86.Final" value="project"/>
+		<level name="Maven: io.netty:netty-transport-classes-epoll:4.1.86.Final" value="project"/>
+		<level name="Maven: commons-cli:commons-cli:1.4" value="project"/>
+		<level name="Maven: org.springframework.kafka:spring-kafka-test:3.0.7" value="project"/>
+		<level name="Maven: org.springframework:spring-context:6.0.9" value="project"/>
+		<level name="Maven: org.springframework:spring-aop:6.0.9" value="project"/>
+		<level name="Maven: org.springframework:spring-beans:6.0.9" value="project"/>
+		<level name="Maven: org.springframework:spring-core:6.0.9" value="project"/>
+		<level name="Maven: org.springframework:spring-jcl:6.0.9" value="project"/>
+		<level name="Maven: org.springframework:spring-expression:6.0.9" value="project"/>
+		<level name="Maven: org.springframework:spring-test:6.0.9" value="project"/>
+		<level name="Maven: org.springframework.retry:spring-retry:2.0.1" value="project"/>
+		<level name="Maven: org.apache.kafka:kafka-clients:test:3.3.2" value="project"/>
+		<level name="Maven: org.apache.kafka:kafka-streams-test-utils:3.3.2" value="project"/>
+		<level name="Maven: org.apache.kafka:kafka-streams:3.3.2" value="project"/>
+		<level name="Maven: org.rocksdb:rocksdbjni:7.1.2" value="project"/>
+		<level name="Maven: org.apache.kafka:kafka_2.13:test:3.3.2" value="project"/>
+		<level name="Maven: org.junit.jupiter:junit-jupiter-api:5.9.2" value="project"/>
+		<level name="Maven: org.opentest4j:opentest4j:1.2.0" value="project"/>
+		<level name="Maven: org.junit.platform:junit-platform-commons:1.9.2" value="project"/>
+		<level name="Maven: org.apiguardian:apiguardian-api:1.1.2" value="project"/>
+		<level name="Maven: org.junit.platform:junit-platform-launcher:1.9.2" value="project"/>
+		<level name="Maven: org.junit.platform:junit-platform-engine:1.9.2" value="project"/>
+		<level name="Maven: com.google.code.findbugs:jsr305:3.0.2" value="project"/>
+	</levels>
+</component>
